@@ -1,2 +1,2 @@
-language = "bash"
-run = ""
+language = "lua"
+run = "cd src && lua main.lua"

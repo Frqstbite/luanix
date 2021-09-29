@@ -1,3 +1,4 @@
+--LUANIX BIOS
 --equivalent to bios/uefi chip
 
 local hardware = require("hardware")
@@ -67,22 +68,25 @@ if not primary.storage then
         descriptor:write("NO BOOTABLE DISK OR VOLUME WAS DETECTED.", "\n")
     end
 
-    return "NOBOOT"
+    return "NODEV"
 end
 
 
 print("BOOTABLE DISK: ", primary.storage, hardware[HardwareKind.storage][primary.storage])
 
 local disk, MBR = VirtualDisk.new(primary.storage)
-local bootAddress = MBR[2]
+disk:seek(MBR[2])
 
-disk:seek(bootAddress)
-print(disk._address, bootAddress, disk._content[1])
 local bootText = disk:read()
-local bootLoader = loadstring(bootText)
+if type(bootText) ~= "string" then
+    return "NOBOOT"
+end
 
+local bootLoader = loadstring(bootText)
 if type(bootLoader) == "function" then
     bootLoader()
 else
     return "BOOTNLO"
 end
+
+return "SUCCESS"
