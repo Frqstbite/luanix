@@ -106,5 +106,7 @@ else
 end
 
 
+--local installer = require("installer/executable")(1)
+
 
 return 0x00

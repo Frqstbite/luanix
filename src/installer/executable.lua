@@ -57,4 +57,6 @@ return function(id)
 
         },
     }
+    
+    descriptor:write(JSON.encode(masterBootRecord), "\n", JSON.encode(data))
 end
