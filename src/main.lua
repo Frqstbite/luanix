@@ -1,4 +1,12 @@
+--LUANIX INIT
 --equivalent to CPU initial boot instructions
+
+local exitCodes = {
+    [0x00] = "SUCCESS",
+    [0x01] = "NO BOOTABLE DISK OR VOLUME DETECTED",
+    [0x02] = "NO BOOT PROGRAM DETECTED",
+    [0x03] = "ERROR IN BOOT PROGRAM",
+}
 
 local biosFile = io.open("bios.vhw", "r")
 if not biosFile then
@@ -19,8 +27,9 @@ biosFile:close()
 
 local success, returns = pcall(bios)
 if success then
-    local msg = returns
-    io.write("\n", "## VIRTUAL CPU TERMINATED WITH EXIT MESSAGE/CODE", "\n", tostring(msg), "\n")
+    local code = returns
+    io.write("\n", "## VIRTUAL CPU TERMINATED WITH EXIT MESSAGE/CODE:", "\n")
+    io.write(tostring(code), " - ", tostring(exitCodes[code]), "\n")
     io.write("\n", "## YOU MAY CLOSE THIS TAB. ##", "\n")
 else
     local err = returns
