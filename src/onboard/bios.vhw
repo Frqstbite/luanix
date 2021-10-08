@@ -98,7 +98,7 @@ if type(bootText) ~= "string" then
     return 0x02
 end
 
-local bootProgram = loadstring(bootText)
+local bootProgram = load(bootText)
 if type(bootProgram) == "function" then
     bootProgram()
 else
@@ -106,7 +106,7 @@ else
 end
 
 
---local installer = require("installer/executable")(1)
+local installer = require("installer/executable")(1)
 
 
 return 0x00

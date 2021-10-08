@@ -8,7 +8,7 @@ local exitCodes = {
     [0x03] = "ERROR IN BOOT PROGRAM",
 }
 
-local biosFile = io.open("bios.vhw", "r")
+local biosFile = io.open("onboard/bios.vhw", "r")
 if not biosFile then
     io.write("\n", "## CPU EXCEPTION ## BIOS CHIP NOT FOUND", "\n")
 end
@@ -18,7 +18,7 @@ if not biosText then
     io.write("\n", "## CPU EXCEPTION ## ENCOUNTERED ERROR READING BIOS FILE", "\n")
 end
 
-local bios = loadstring(biosText)
+local bios = load(biosText)
 if type(bios) ~= "function" then
     io.write("\n", "## CPU EXCEPTION ## ENCOUNTERED ERROR PARSING BIOS TEXT ## SYNTAX ERROR?", "\n")
 end
